@@ -16,7 +16,11 @@ public class Elevator {
         currentFloor = 0;
     }
 
-    public void summon(int destination) {
+    public List<Integer> getDestinations() {
+        return this.destinations;
+    }
+
+    public void addDestination(int destination) {
         if (!destinations.contains(destination)) {
             destinations.add(destination);
         }
@@ -30,6 +34,11 @@ public class Elevator {
             return MovingDirection.MOVING_DOWNWARDS;
         }
         return MovingDirection.NOT_MOVING;
+    }
+
+    public void travel() {
+        // Removes and returns first element in destinations list to currentFloor variable
+        currentFloor = destinations.remove(0);
     }
 
     public int getEstimatedTimeToArrival(int destination) {
