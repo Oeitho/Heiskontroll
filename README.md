@@ -9,7 +9,7 @@ Grunnleggende funksjonalitet er simpel:
 - Det skal være mulig å ha flere etasjer i en rekkefølge som heisen skal besøke.
 
 ## Betraktninger
-- Det kan være mer enn en heis. Hvis dette er tilfelle burde heisen med minst å gjøre hentes om en tilkalles.
+- Det kan være mer enn en heis. Hvis dette er tilfelle burde heisen med minst å gjøre tilkalles.
 - Ved nødsituasjoner må alle heiser stanses.
 - Manuell overstyring må være mulig. Det skal være mulig å stanse alle heiser gjennom kontrollsystemet.
-- 
+- For å effektivisere heisbruken, burde heisen legge endre retning minst mulig.*

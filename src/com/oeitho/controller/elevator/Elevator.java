@@ -21,7 +21,41 @@ public class Elevator {
     }
 
     public void addDestination(int destination) {
-        if (!destinations.contains(destination)) {
+        if (!destinations.contains(destination) && destination != currentFloor) {
+            MovingDirection direction = direction();
+            if (direction == MovingDirection.MOVING_DOWNWARDS) {
+                if (destination > currentFloor) {
+                    for (int i = 0; i < destinations.size(); i++) {
+                        if (destinations.get(i) > currentFloor && destinations.get(i) < destination) {
+                            destinations.add(i, destination);
+                            return;
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < destinations.size(); i++) {
+                        if (destinations.get(i) > currentFloor || destinations.get(i) < destination) {
+                            destinations.add(i, destination);
+                            return;
+                        }
+                    }
+                }
+            } else if (direction == MovingDirection.MOVING_UPWARDS) {
+                if (destination < currentFloor) {
+                    for (int i = 0; i < destinations.size(); i++) {
+                        if (destinations.get(i) < currentFloor && destinations.get(i) > destination) {
+                            destinations.add(i, destination);
+                            return;
+                        }
+                    }
+                } else {
+                    for (int i = 0; i < destinations.size(); i++) {
+                        if (destinations.get(i) < currentFloor || destinations.get(i) > destination) {
+                            destinations.add(i, destination);
+                            return;
+                        }
+                    }
+                }
+            }
             destinations.add(destination);
         }
     }
@@ -38,10 +72,38 @@ public class Elevator {
 
     public void travel() {
         // Removes and returns first element in destinations list to currentFloor variable
-        currentFloor = destinations.remove(0);
+        MovingDirection direction = direction();
+        if (direction == MovingDirection.MOVING_DOWNWARDS) {
+            currentFloor--;
+        }
+        else if (direction == MovingDirection.MOVING_UPWARDS) {
+            currentFloor++;
+        }
+        if (destinations.contains(currentFloor)) {
+            System.out.println("Arrived at floor " + currentFloor);
+            destinations.remove((Integer) currentFloor);
+        }
     }
 
     public int getEstimatedTimeToArrival(int destination) {
+        if (destination == currentFloor) {
+            return 0;
+        }
+        MovingDirection direction = direction();
+        if (direction == MovingDirection.MOVING_DOWNWARDS) {
+            if (destination > currentFloor) {
+                int lowestFloor = destinations.stream().min(Integer::compareTo).orElse(0);
+                return (currentFloor - lowestFloor) * TIME_TO_CLIMB_FLOOR + // Moving downwards
+                        (destination - lowestFloor) * TIME_TO_CLIMB_FLOOR;  // Moving upwards toward the destination
+            }
+        }
+        else if (direction == MovingDirection.MOVING_UPWARDS) {
+            if (destination < currentFloor) {
+                int highestFloor = destinations.stream().max(Integer::compareTo).orElse(0);
+                return (highestFloor - currentFloor) * TIME_TO_CLIMB_FLOOR + // Moving upwards
+                        (highestFloor - destination) * TIME_TO_CLIMB_FLOOR;  // Moving downwards toward the destination
+            }
+        }
         return Math.abs(destination - currentFloor) * TIME_TO_CLIMB_FLOOR;
     }
 

@@ -20,6 +20,10 @@ public class ElevatorController {
         elevators.add(elevator);
     }
 
+    public List<Elevator> getElevators() {
+        return this.elevators;
+    }
+
     public void emergencyStop() {
         System.out.println("Stopping all elevators!");
         elevators.forEach(Elevator::emergencyStop);
@@ -28,7 +32,7 @@ public class ElevatorController {
 
     public void summon(int floor) {
         System.out.println("Attempting to summon elevator to floor " + floor);
-        Optional<Elevator> elevatorOptional = this.elevators.stream().min(ElevatorController::leastBusyElevator);
+        Optional<Elevator> elevatorOptional = this.elevators.stream().min((a, b) -> compareFastestElevator(a, b, floor));
         elevatorOptional.ifPresentOrElse(
                 elevator -> summonElevator(elevator, floor),
                 () -> System.out.println("No elevators have been installed.")
@@ -40,8 +44,8 @@ public class ElevatorController {
         elevator.addDestination(floor);
     }
 
-    private static int leastBusyElevator(Elevator a, Elevator b) {
-        return a.getDestinations().size() - b.getDestinations().size();
+    private static int compareFastestElevator(Elevator a, Elevator b, int floor) {
+        return a.getEstimatedTimeToArrival(floor) - b.getEstimatedTimeToArrival(floor);
     }
 
     @Override
