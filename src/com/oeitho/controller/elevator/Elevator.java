@@ -55,4 +55,12 @@ public class Elevator {
         MOVING_DOWNWARDS
     }
 
+    @Override
+    public String toString() {
+        return "Elevator{" +
+                "destinations=" + destinations +
+                ", currentFloor=" + currentFloor +
+                ", direction=" + direction() +
+                '}';
+    }
 }

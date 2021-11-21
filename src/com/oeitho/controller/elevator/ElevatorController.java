@@ -44,4 +44,10 @@ public class ElevatorController {
         return a.getDestinations().size() - b.getDestinations().size();
     }
 
+    @Override
+    public String toString() {
+        return "ElevatorController{" +
+                "elevators=" + elevators +
+                '}';
+    }
 }
