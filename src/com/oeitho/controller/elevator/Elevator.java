@@ -24,40 +24,50 @@ public class Elevator {
         if (!destinations.contains(destination) && destination != currentFloor) {
             MovingDirection direction = direction();
             if (direction == MovingDirection.MOVING_DOWNWARDS) {
-                if (destination > currentFloor) {
-                    for (int i = 0; i < destinations.size(); i++) {
-                        if (destinations.get(i) > currentFloor && destinations.get(i) < destination) {
-                            destinations.add(i, destination);
-                            return;
-                        }
-                    }
-                } else {
-                    for (int i = 0; i < destinations.size(); i++) {
-                        if (destinations.get(i) > currentFloor || destinations.get(i) < destination) {
-                            destinations.add(i, destination);
-                            return;
-                        }
-                    }
-                }
+                if (addDestinationDuringDownwardsDirection(destination)) return;
             } else if (direction == MovingDirection.MOVING_UPWARDS) {
-                if (destination < currentFloor) {
-                    for (int i = 0; i < destinations.size(); i++) {
-                        if (destinations.get(i) < currentFloor && destinations.get(i) > destination) {
-                            destinations.add(i, destination);
-                            return;
-                        }
-                    }
-                } else {
-                    for (int i = 0; i < destinations.size(); i++) {
-                        if (destinations.get(i) < currentFloor || destinations.get(i) > destination) {
-                            destinations.add(i, destination);
-                            return;
-                        }
-                    }
-                }
+                if (addDestinationDuringUpwardsDirection(destination)) return;
             }
             destinations.add(destination);
         }
+    }
+
+    private boolean addDestinationDuringUpwardsDirection(int destination) {
+        if (destination < currentFloor) {
+            for (int i = 0; i < destinations.size(); i++) {
+                if (destinations.get(i) < currentFloor && destinations.get(i) > destination) {
+                    destinations.add(i, destination);
+                    return true;
+                }
+            }
+        } else {
+            for (int i = 0; i < destinations.size(); i++) {
+                if (destinations.get(i) < currentFloor || destinations.get(i) > destination) {
+                    destinations.add(i, destination);
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean addDestinationDuringDownwardsDirection(int destination) {
+        if (destination > currentFloor) {
+            for (int i = 0; i < destinations.size(); i++) {
+                if (destinations.get(i) > currentFloor && destinations.get(i) < destination) {
+                    destinations.add(i, destination);
+                    return true;
+                }
+            }
+        } else {
+            for (int i = 0; i < destinations.size(); i++) {
+                if (destinations.get(i) > currentFloor || destinations.get(i) < destination) {
+                    destinations.add(i, destination);
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public MovingDirection direction() {
