@@ -13,11 +13,11 @@ public class ElevatorController {
     }
 
     public void travel() {
-        elevators.forEach(Elevator::travel);
+        this.elevators.forEach(Elevator::travel);
     }
 
     public void addElevator(Elevator elevator) {
-        elevators.add(elevator);
+        this.elevators.add(elevator);
     }
 
     public List<Elevator> getElevators() {
@@ -26,8 +26,15 @@ public class ElevatorController {
 
     public void emergencyStop() {
         System.out.println("Stopping all elevators!");
-        elevators.forEach(Elevator::emergencyStop);
+        this.elevators.forEach(Elevator::emergencyStop);
         System.out.println("All elevators have been stopped");
+    }
+
+    public int estimatedTimeToArrival(int floor) {
+        return this.elevators.stream()
+                .min((a, b) -> compareFastestElevator(a, b, floor))
+                .map(elevator -> elevator.getEstimatedTimeToArrival(floor))
+                .orElse(-1);
     }
 
     public void summon(int floor) {
@@ -39,19 +46,19 @@ public class ElevatorController {
                 );
     }
 
+    private static int compareFastestElevator(Elevator a, Elevator b, int floor) {
+        return a.getEstimatedTimeToArrival(floor) - b.getEstimatedTimeToArrival(floor);
+    }
+
     private void summonElevator(Elevator elevator, int floor) {
         System.out.println("Summoning elevator to floor " + floor);
         elevator.addDestination(floor);
     }
 
-    private static int compareFastestElevator(Elevator a, Elevator b, int floor) {
-        return a.getEstimatedTimeToArrival(floor) - b.getEstimatedTimeToArrival(floor);
-    }
-
     @Override
     public String toString() {
         return "ElevatorController{" +
-                "elevators=" + elevators +
+                "elevators=" + this.elevators +
                 '}';
     }
 }
