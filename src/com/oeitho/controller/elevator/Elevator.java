@@ -1,5 +1,7 @@
 package com.oeitho.controller.elevator;
 
+import com.oeitho.controller.elevator.enums.MovingDirection;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -119,12 +121,6 @@ public class Elevator {
 
     public void emergencyStop() {
         this.destinations.clear();
-    }
-
-    public enum MovingDirection {
-        NOT_MOVING,
-        MOVING_UPWARDS,
-        MOVING_DOWNWARDS
     }
 
     @Override

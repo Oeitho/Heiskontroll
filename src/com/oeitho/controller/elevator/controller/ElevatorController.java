@@ -1,4 +1,6 @@
-package com.oeitho.controller.elevator;
+package com.oeitho.controller.elevator.controller;
+
+import com.oeitho.controller.elevator.Elevator;
 
 import java.util.ArrayList;
 import java.util.List;
